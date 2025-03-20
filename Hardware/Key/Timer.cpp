@@ -5,7 +5,7 @@
   * 参    数：无
   * 返 回 值：无
   */
-void Key(u16 arr, u16 psc)
+void TIM2_Int_Init(u16 arr, u16 psc)
 {
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     NVIC_InitTypeDef NVIC_InitStructure;

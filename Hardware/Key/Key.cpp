@@ -37,44 +37,23 @@ static void KEY_GetAction_PressOrRelease(u8 data); // 获取按键是按下还�
 //};
 
 KEY_Configure_TypeDef KeyCfg[] = {
-		{0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键0
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键1
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键2
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键3
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键4
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键5
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键6
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键7
     {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键8
     {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键9
     {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键10
     {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键11
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键12
-		{0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键13
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}, // 按键14
-    {0, KEY_Action_Release, KEY_Status_Idle, KEY_Event_Null, KEY_ReadPin}  // 按键15
 };
 
 /**************************************************************************************************** 
 *                             函数定义
 ****************************************************************************************************/
 // 按键读取按键的电平函数，更具实际情况修改
-#define KEY_GPIO GPIOC
+#define KEY_GPIO GPIOA  
 
 static KEY_PinLevel_TypeDef KEY_ReadPin(u8 data) // 按键读取函数
 {
     // 引脚映射数组
-    static const uint16_t GPIO_Pins[] = {
-        GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3, GPIO_Pin_4,
-        GPIO_Pin_5, GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8,
-        GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, GPIO_Pin_12,
-        GPIO_Pin_13, GPIO_Pin_14,GPIO_Pin_15
-    };
-
-    // 输入范围校验
-    if (data < 1 || data > 15) {
-        return (KEY_PinLevel_TypeDef)-1; // 无效值
-    }
+    static const uint16_t GPIO_Pins[] = {GPIO_Pin_8, GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11};
+    if (data > 3) return (KEY_PinLevel_TypeDef)-1; // 0-3有效
 
     // 读取指定引脚的状态
     return (KEY_PinLevel_TypeDef)GPIO_ReadInputDataBit(KEY_GPIO, GPIO_Pins[data - 1]);
@@ -94,14 +73,17 @@ static void KEY_GetAction_PressOrRelease(u8 data) // 根据实际按下按钮的
 	}
 }
 
-
-
-
 //按键初始化函数
-Key::Key(GPIO_TypeDef* _Key_GPIOx, uint16_t _KeyPin) //IO初始化
-				:key(_Key_GPIOx,_KeyPin,GPIO_Mode_IPU)
+void KEY_Init(void) //IO初始化
 { 
-
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);//使能PORTA时钟
+	
+ 	GPIO_InitTypeDef GPIO_InitStructure;
+ 
+	//初始化 WK_UP-->GPIOA.0	  
+	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; //设置成上拉输入
+	GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化GPIOA.0
 }
 
 /**************************************************************************************************** 
@@ -229,5 +211,3 @@ void KEY_ReadStateMachine(u8 data)
 	}
 
 }
-
-

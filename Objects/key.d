@@ -31,6 +31,4 @@
 .\objects\key.o: Hardware\Key\key.h
 .\objects\key.o: .\System\sys\sys.h
 .\objects\key.o: .\System\Delay\delay.h
-.\objects\key.o: .\System\IO_Core\IO_Core.h
-.\objects\key.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\key.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

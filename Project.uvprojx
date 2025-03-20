@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\System;.\Hardware;.\Hardware\Key;.\Hardware\LED;.\Hardware\OLED;.\System\Delay;.\System\sys;.\Hardware\PWM;.\Hardware\control;.\System\IO_Core;.\Hardware\MPU6050;.\System\usart</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\System;.\Hardware;.\Hardware\Key;.\Hardware\LED;.\Hardware\OLED;.\System\Delay;.\System\sys;.\Hardware\PWM;.\Hardware\control;.\System\IO_Core;.\Hardware\MPU6050;.\System\usart;.\Hardware\usart2</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -723,6 +723,11 @@
               <FileName>Timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\Key\Timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>usart2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Hardware\usart2\usart2.cpp</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,7 +1,6 @@
 #ifndef __KEY_H
 #define __KEY_H	 
 #include "sys.h"
-#include "IO_Core.h"
 // 按键状态
 typedef enum _KEY_StatusList_TypeDef 
 {
@@ -52,12 +51,6 @@ extern KEY_Configure_TypeDef KeyCfg[];
 void KEY_Init(void); //IO初始化
 void KEY_ReadStateMachine(u8 data);// 读取按键状态机
 
-class Key
-{
-	private:
-	public:
-		GPIO key;
-		Key(GPIO_TypeDef* _SCL_GPIOx, uint16_t _sclPin);
-};
+
 			    
 #endif
