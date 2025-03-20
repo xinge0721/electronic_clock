@@ -195,17 +195,20 @@ uint8_t uart::Serial_GetRxData(void)
 
 void uart::Serial_data(uint8_t RXdata)
 {
-	static u8 i = 0;
-	if(i != 8)
-		dispose_data[i++] = RXdata;
+	if(OK != 8)
+		dispose_data[OK++] = RXdata;
 	else
 	{
-		i = 0;
+		//防止用户直接读取了不完整的数据
 		for(int j = 0 ; j < 8 ; j++)
 		{
 			OK_data[j] = dispose_data[j];
 		}
-		OK = 1;
+		//用这个判断是否可以使用这个数组
+		//就是外部只需判断OK等于零的时候，这个数组就可以用了
+		//当然这个标志位不需要外部清零，我们自己清零
+		//毕竟会存在读取不及时，但需要接受新的数据
+		OK = 0;
 	}
 }
 

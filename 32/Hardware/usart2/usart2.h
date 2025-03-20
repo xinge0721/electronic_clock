@@ -13,9 +13,10 @@ private:
 	uint8_t Serial_RxFlag;		//定义串口接收的标志位变量
 	uint32_t Serial_Pow(uint32_t X, uint32_t Y);
 	uint8_t dispose_data[8];		//定义串口接收的标志位变量
-	uint8_t OK_data[8];		//定义串口接收的标志位变量
-	uint8_t OK;
+
 public:
+		uint8_t OK_data[8];		//定义串口接收的标志位变量
+		uint8_t OK;
     uart(GPIO_TypeDef* _TX_GPIOx, uint16_t _TX_Pin, 
          GPIO_TypeDef* _RX_GPIOx, uint16_t _RX_Pin,
          int bound);
