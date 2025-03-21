@@ -1,0 +1,197 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.39.0.0
+Copyright (C) 2023 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: a j, a, LIC=65ISZ-J0RS8-308NC-7X4HK-0BQK4-3CESJ
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.39.0.0
+Toolchain Path:  D:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.39.0.0
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.2.0.0
+Dialog DLL:      TCM.DLL V1.56.4.0
+ 
+<h2>Project:</h2>
+G:\bianchen\electronic_clock\cpp版本（基本不行，根本没法用）\32\Project.uvprojx
+Project File Date:  03/20/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling control.cpp...
+.\System\IO_Core\IO_Core.h(13): error:  #338: more than one instance of overloaded function "GPIO_Write"  has "C" linkage
+  void GPIO_Write(GPIO_TypeDef* GPIOx, 
+int16_t Pin, 
+int8_t state);
+Hardware\control\control.h(10): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN1;
+Hardware\control\control.h(11): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN2;
+Hardware\control\control.h(37): error:  #20: identifier "PWM" is undefined
+  			PWM pwm;
+Hardware\control\control.cpp(5): error:  #18: expected a ")"
+  			:IN1(_IN1_GPIOx, _IN1Pin,GPIO_Mode_Out_PP),
+Hardware\control\control.cpp(6): error:  #18: expected a ")"
+  			IN2(_IN2_GPIOx, _IN2Pin,GPIO_Mode_Out_PP)
+Hardware\control\control.cpp(34): error:  #18: expected a ")"
+  					pwm(Oc1_GPIOx,Oc1_IN2Pin,Oc4_GPIOx,Oc4_IN2Pin,arr,psc)
+Hardware\control\control.cpp: 0 warnings, 7 errors
+compiling IO_Core.cpp...
+System\IO_Core\IO_Core.h(13): error:  #338: more than one instance of overloaded function "GPIO_Write"  has "C" linkage
+  void GPIO_Write(GPIO_TypeDef* GPIOx, uint16_t Pin, uint8_t state);
+System\IO_Core\IO_Core.cpp(5): error:  #20: identifier "TIM_GPIO_Mapping" is undefined
+  const TIM_GPIO_Mapping timMap[] = {
+System\IO_Core\IO_Core.cpp(68): error:  #276: name followed by "::" must be a class or namespace name
+  	GPIO::GPIO(GPIO_TypeDef* _GPIOx, uint16_t _Pin, GPIOMode_TypeDef mode)
+System\IO_Core\IO_Core.cpp(68): error:  #260-D: explicit type is missing ("int" assumed)
+  	GPIO::GPIO(GPIO_TypeDef* _GPIOx, uint16_t _Pin, GPIOMode_TypeDef mode)
+System\IO_Core\IO_Core.cpp(69): error:  #130: expected a "{"
+  	: GPIOx(_GPIOx),
+System\IO_Core\IO_Core.cpp(72): error:  #20: identifier "GPIOx" is undefined
+  	RCC_APB2PeriphClockCmd(GetGpioClock(GPIOx), ENABLE);
+System\IO_Core\IO_Core.cpp(75): error:  #20: identifier "Pin" is undefined
+  	init.GPIO_Pin = Pin;
+System\IO_Core\IO_Core.cpp(81): warning:  #940-D: missing return statement at end of non-void function "GPIO" 
+  }
+System\IO_Core\IO_Core.cpp(84): error:  #276: name followed by "::" must be a class or namespace name
+  void GPIO::Write(bool state) {
+System\IO_Core\IO_Core.cpp(85): error:  #20: identifier "GPIOx" is undefined
+  GPIO_WriteBit(GPIOx, Pin, state ? Bit_SET : Bit_RESET);
+System\IO_Core\IO_Core.cpp(85): error:  #20: identifier "Pin" is undefined
+  GPIO_WriteBit(GPIOx, Pin, state ? Bit_SET : Bit_RESET);
+System\IO_Core\IO_Core.cpp(88): error:  #276: name followed by "::" must be a class or namespace name
+  bool GPIO::Read(void) {
+System\IO_Core\IO_Core.cpp(89): error:  #20: identifier "GPIOx" is undefined
+  return GPIO_ReadInputDataBit(GPIOx, Pin);
+System\IO_Core\IO_Core.cpp(89): error:  #20: identifier "Pin" is undefined
+  return GPIO_ReadInputDataBit(GPIOx, Pin);
+System\IO_Core\IO_Core.cpp(94): error:  #276: name followed by "::" must be a class or namespace name
+  PWM::PWM(GPIO_TypeDef* _Oc1, u16 _Oc1Pin,
+System\IO_Core\IO_Core.cpp(94): error:  #260-D: explicit type is missing ("int" assumed)
+  PWM::PWM(GPIO_TypeDef* _Oc1, u16 _Oc1Pin,
+System\IO_Core\IO_Core.cpp(97): error:  #130: expected a "{"
+  					:Oc1(_Oc1,_Oc1Pin,GPIO_Mode_AF_PP),
+System\IO_Core\IO_Core.cpp(107): warning:  #117-D: non-void function "PWM"  should return a value
+  				return;
+System\IO_Core\IO_Core.cpp(113): warning:  #117-D: non-void function "PWM"  should return a value
+  				return;
+System\IO_Core\IO_Core.cpp(116): error:  #258: "this" may only be used inside a nonstatic member function
+  		this->pwm_tim = OC1_tim; // 直接使用Oc1_tim（已确保Oc1_tim == Oc4_tim）
+System\IO_Core\IO_Core.cpp(119): error:  #20: identifier "pwm_tim" is undefined
+  		if (pwm_tim == TIM1) {
+System\IO_Core\IO_Core.cpp(152): warning:  #940-D: missing return statement at end of non-void function "PWM" 
+  }	
+System\IO_Core\IO_Core.cpp(154): error:  #276: name followed by "::" must be a class or namespace name
+  void PWM::setOc1(u16 value) 
+System\IO_Core\IO_Core.cpp(156): error:  #20: identifier "pwm_tim" is undefined
+  		 TIM_SetCompare1(pwm_tim, value);
+System\IO_Core\IO_Core.cpp(159): error:  #276: name followed by "::" must be a class or namespace name
+  void PWM::setOc4(u16 value) 
+System\IO_Core\IO_Core.cpp(161): error:  #20: identifier "pwm_tim" is undefined
+  		 TIM_SetCompare4(pwm_tim, value);
+System\IO_Core\IO_Core.cpp(164): error:  #276: name followed by "::" must be a class or namespace name
+  encoder::encoder(GPIO_TypeDef* _EN1, u16 _EN1Pin,
+System\IO_Core\IO_Core.cpp(164): error:  #260-D: explicit type is missing ("int" assumed)
+  encoder::encoder(GPIO_TypeDef* _EN1, u16 _EN1Pin,
+System\IO_Core\IO_Core.cpp(167): error:  #130: expected a "{"
+      : EN1(_EN1, _EN1Pin, GPIO_Mode_IN_FLOATING),  // 内部上拉
+System\IO_Core\IO_Core.cpp(178): warning:  #117-D: non-void function "encoder"  should return a value
+          return;
+System\IO_Core\IO_Core.cpp(184): warning:  #117-D: non-void function "encoder"  should return a value
+          return;
+System\IO_Core\IO_Core.cpp(187): error:  #258: "this" may only be used inside a nonstatic member function
+      this->timx = EN1_tim;
+System\IO_Core\IO_Core.cpp(190): error:  #20: identifier "timx" is undefined
+      if (timx == TIM1) {
+System\IO_Core\IO_Core.cpp(240): warning:  #940-D: missing return statement at end of non-void function "encoder" 
+  }
+System\IO_Core\IO_Core.cpp(242): error:  #276: name followed by "::" must be a class or namespace name
+  int16_t encoder::Right(void) {
+System\IO_Core\IO_Core.cpp(244): error:  #20: identifier "timx" is undefined
+  		Temp = TIM_GetCounter(timx);
+System\IO_Core\IO_Core.cpp(249): error:  #276: name followed by "::" must be a class or namespace name
+  void encoder::Right(int16_t &Temp) {
+System\IO_Core\IO_Core.cpp: 7 warnings, 30 errors
+compiling OLED.cpp...
+.\System\IO_Core\IO_Core.h(13): error:  #338: more than one instance of overloaded function "GPIO_Write"  has "C" linkage
+  void GPIO_Write(GPIO_TypeDef* GPIOx, 
+int16_t Pin, 
+int8_t state);
+.\Hardware\control\control.h(10): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN1;
+.\Hardware\control\control.h(11): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN2;
+.\Hardware\control\control.h(37): error:  #20: identifier "PWM" is undefined
+  			PWM pwm;
+Hardware\OLED\OLED.h(45): error:  #20: identifier "GPIO" is undefined
+  		GPIO SCL;
+Hardware\OLED\OLED.h(46): error:  #20: identifier "GPIO" is undefined
+  		GPIO SDA;
+Hardware\OLED\OLED.cpp(8): error:  #18: expected a ")"
+  			:SCL(_SCL_GPIOx,_sclPin,GPIO_Mode_Out_OD),
+Hardware\OLED\OLED.cpp(9): error:  #18: expected a ")"
+  		  SDA(_SDA_GPIOx,_sdaPin,GPIO_Mode_Out_OD)
+Hardware\OLED\OLED.cpp: 0 warnings, 8 errors
+compiling pivot.cpp...
+.\System\IO_Core\IO_Core.h(13): error:  #338: more than one instance of overloaded function "GPIO_Write"  has "C" linkage
+  void GPIO_Write(GPIO_TypeDef* GPIOx, 
+int16_t Pin, 
+int8_t state);
+.\Hardware\OLED\OLED.h(45): error:  #20: identifier "GPIO" is undefined
+  		GPIO SCL;
+.\Hardware\OLED\OLED.h(46): error:  #20: identifier "GPIO" is undefined
+  		GPIO SDA;
+.\Hardware\control\control.h(10): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN1;
+.\Hardware\control\control.h(11): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN2;
+.\Hardware\control\control.h(37): error:  #20: identifier "PWM" is undefined
+  			PWM pwm;
+User\pivot.cpp: 0 warnings, 6 errors
+compiling mian.cpp...
+.\System\IO_Core\IO_Core.h(13): error:  #338: more than one instance of overloaded function "GPIO_Write"  has "C" linkage
+  void GPIO_Write(GPIO_TypeDef* GPIOx, 
+int16_t Pin, 
+int8_t state);
+.\Hardware\OLED\OLED.h(45): error:  #20: identifier "GPIO" is undefined
+  		GPIO SCL;
+.\Hardware\OLED\OLED.h(46): error:  #20: identifier "GPIO" is undefined
+  		GPIO SDA;
+.\Hardware\control\control.h(10): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN1;
+.\Hardware\control\control.h(11): error:  #20: identifier "GPIO" is undefined
+  		GPIO IN2;
+.\Hardware\control\control.h(37): error:  #20: identifier "PWM" is undefined
+  			PWM pwm;
+User\mian.cpp(46): error:  #65: expected a ";"
+  {
+User\mian.cpp(71): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+User\mian.cpp(71): error: At end of source:  #67: expected a "}"
+User\mian.cpp: 1 warning, 8 errors
+".\Objects\Project.axf" - 59 Error(s), 8 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.2.0.pack
+                Keil::STM32F1xx_DFP@2.2.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  D:/Users/j/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.2.0/Device/Include
+
+<h2>Collection of Component Files used:</h2>
+Target not created.
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

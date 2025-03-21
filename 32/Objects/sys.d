@@ -1,5 +1,5 @@
-.\objects\sys.o: System\sys\sys.cpp
-.\objects\sys.o: System\sys\sys.h
+.\objects\sys.o: System\sys.cpp
+.\objects\sys.o: System\sys.h
 .\objects\sys.o: .\Start\stm32f10x.h
 .\objects\sys.o: .\Start\core_cm3.h
 .\objects\sys.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -29,4 +29,4 @@
 .\objects\sys.o: .\Library\stm32f10x_usart.h
 .\objects\sys.o: .\Library\stm32f10x_wwdg.h
 .\objects\sys.o: .\Library\misc.h
-.\objects\sys.o: .\System\Delay\delay.h
+.\objects\sys.o: System\delay.h

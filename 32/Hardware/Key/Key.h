@@ -29,11 +29,10 @@ typedef enum
 }KEY_Action_TypeDef;
 
 // 按键引脚的电平
-typedef enum
-{ 
-	KKEY_PinLevel_Low = 0,
-	KEY_PinLevel_High
-}KEY_PinLevel_TypeDef;
+typedef enum { 
+    KEY_PinLevel_Low = 0,
+    KEY_PinLevel_High
+} KEY_PinLevel_TypeDef;
 
 // 按键配置结构体
 typedef struct _KEY_Configure_TypeDef 
