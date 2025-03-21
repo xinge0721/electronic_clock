@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 线性布局容器，垂直排列其子视图 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"    
+    android:layout_height="match_parent"   
+    android:orientation="vertical"        
+    android:padding="16dp">               
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="搜索设备" />
+
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="连接" />
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="发送" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="未连接"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/lvDevices"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1" />
+
+    <!-- 接收数据显示 -->
+    <TextView
+        android:id="@+id/receivedDataText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="接收到的数据: "
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 特殊功能按钮组 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnSend1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="功能1"
+            android:layout_marginEnd="4dp"/>
+
+        <Button
+            android:id="@+id/btnSend2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="功能2"
+            android:layout_marginHorizontal="4dp"/>
+
+        <Button
+            android:id="@+id/btnSend3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="功能3"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
+
+    <!-- 自定义数据输入区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            android:layout_marginEnd="4dp">
+
+            <EditText
+                android:id="@+id/editData1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="数据1"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:padding="8dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            android:layout_marginHorizontal="4dp">
+
+            <EditText
+                android:id="@+id/editData2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="数据2"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:padding="8dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            android:layout_marginStart="4dp">
+
+            <EditText
+                android:id="@+id/editData3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="数据3"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:padding="8dp"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- 自定义数据发送按钮 -->
+    <Button
+        android:id="@+id/btnSendCustom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送自定义数据"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- 发送时间按钮 -->
+    <Button
+        android:id="@+id/btnSendTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送当前时间"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- 发送FF数据按钮 -->
+    <Button
+        android:id="@+id/btnSendFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送FF数据"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>

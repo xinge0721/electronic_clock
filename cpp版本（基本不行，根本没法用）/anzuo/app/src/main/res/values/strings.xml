@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">anzuo</string>
+    <string name="title_paired_devices">已配对设备</string>
+    <string name="title_other_devices">其他可用设备</string>
+    <string name="button_scan">扫描设备</string>
+    <string name="none_paired">没有找到已配对设备</string>
+    <string name="none_found">没有找到设备</string>
+    <string name="scanning">正在扫描...</string>
+</resources>

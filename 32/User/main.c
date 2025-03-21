@@ -29,7 +29,6 @@ int main(void)
 	while (1)
 	{
 		USART_data();  // 处理串口数据
-		UpdateTimeDisplay();
 		Key_Nums();
 	}
 }
@@ -51,6 +50,7 @@ void TIM3_IRQHandler(void)
 {
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
 	{
+		
 		// 更新时间计数
 		if (!currentTime.isSettingMode)  // 只在非设置模式下更新时间
 		{
@@ -67,7 +67,7 @@ void TIM3_IRQHandler(void)
 				}
 			}
 		}
-		
+		UpdateTimeDisplay(); //更新时间
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 	}
 }

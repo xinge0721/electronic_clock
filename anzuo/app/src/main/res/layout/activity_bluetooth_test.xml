@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="8字节蓝牙数据包测试"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#FF5722"
+        android:layout_marginBottom="16dp" />
+        
+    <!-- 连接状态 -->
+    <TextView
+        android:id="@+id/connectionStatusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="未连接蓝牙设备"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+        
+    <!-- 连接按钮 -->
+    <Button
+        android:id="@+id/connectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择并连接蓝牙设备"
+        android:textSize="16sp"
+        android:backgroundTint="#4CAF50"
+        android:layout_marginBottom="16dp" />
+        
+    <!-- 分隔线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FF5722"
+        android:layout_marginBottom="16dp" />
+        
+    <!-- 测试按钮组标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="正常数据测试"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+        
+    <!-- 正常数据测试按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+        
+        <Button
+            android:id="@+id/normalTestButton1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="正常数据1"
+            android:layout_marginEnd="4dp" />
+            
+        <Button
+            android:id="@+id/normalTestButton2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="正常数据2"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
+            
+        <Button
+            android:id="@+id/normalTestButton3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="正常数据3"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+    
+    <!-- 极端测试按钮组标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="极端数据测试"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+        
+    <!-- 极端数据测试按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+        
+        <Button
+            android:id="@+id/extremeTestButton1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全FF"
+            android:layout_marginEnd="4dp" />
+            
+        <Button
+            android:id="@+id/extremeTestButton2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全00"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
+            
+        <Button
+            android:id="@+id/extremeTestButton3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全55"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+    
+    <!-- 分隔线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginBottom="16dp" />
+        
+    <!-- 接收数据区域 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="接收数据记录"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+        
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#F5F5F5">
+        
+        <TextView
+            android:id="@+id/receivedDataText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:fontFamily="monospace" />
+    </ScrollView>
+    
+    <!-- 清空日志按钮 -->
+    <Button
+        android:id="@+id/clearLogButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清空日志"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout> 

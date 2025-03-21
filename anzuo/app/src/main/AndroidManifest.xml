@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android应用程序的清单文件，定义了应用的基本属性和组件 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.anzuo">
 
-    <!-- 蓝牙权限声明 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" 
-        android:usesPermissionFlags="neverForLocation"
-        tools:targetApi="s" />
+    <!-- 蓝牙权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    
+    <!-- Android 12+蓝牙权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    
+    <!-- 位置权限(蓝牙扫描需要) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!-- 声明蓝牙功能 -->
+    <!-- 蓝牙功能声明 -->
     <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
 
-    <!-- 应用程序配置 -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -29,16 +29,17 @@
         android:theme="@style/Theme.Anzuo"
         tools:targetApi="31">
         
-        <!-- 主活动声明 -->
+        <!-- 蓝牙测试Activity -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <!-- 程序入口点配置 -->
+            android:name=".BluetoothTestActivity"
+            android:exported="true"
+            android:label="蓝牙数据测试">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
     </application>
 
 </manifest>

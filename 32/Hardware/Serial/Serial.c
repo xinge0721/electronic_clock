@@ -16,8 +16,8 @@ static uint8_t isPacketComplete = 0;
   * 返 回 值：校验和
   */
 static uint8_t calculateChecksum(uint8_t command, uint8_t data1, uint8_t data2, uint8_t data3)
-{
-    return ~(command + data1 + data2 + data3);
+{ 
+    return (command + data1 + data2 + data3) % 256;
 }
 
 /**

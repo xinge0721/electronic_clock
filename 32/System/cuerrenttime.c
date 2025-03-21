@@ -41,6 +41,13 @@ void UpdateTimeDisplay(void)
 		OLED_ShowNum(2, 9, temp_int % 10, 1);
 		OLED_ShowChar(2, 10, 'C');
 	}
+	else 
+	{
+		OLED_ShowNum(2, 6, 23 , 2);
+		OLED_ShowChar(2, 8, '.');
+		OLED_ShowNum(2, 9, 0, 1);
+		OLED_ShowChar(2, 10, 'C');
+	}
 }
 
 // 处理时间设置
@@ -88,45 +95,42 @@ void HandleTimeSetting(uint8_t increment)
 // 按键功能执行函数（非循环版）
 void Key_Nums(void) 
 {
+	static uint8_t cont = 0;
 	// 处理按键0（GPIOA.8）
-	if (KeyCfg[0].KEY_Event == KEY_Event_SingleClick) 
+	if (KeyCfg[0].KEY_Event == KEY_Event_SingleClick) //单击
 	{
 		// 进入/退出设置模式
 		currentTime.isSettingMode = !currentTime.isSettingMode;
 		currentTime.settingIndex = 0;
 		KeyCfg[0].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[0].KEY_Event == KEY_Event_DoubleClick) 
+	else if (KeyCfg[0].KEY_Event == KEY_Event_DoubleClick) //双击
 	{
 		// 预留双击功能
 		KeyCfg[0].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[0].KEY_Event == KEY_Event_LongPress) 
+	else if (KeyCfg[0].KEY_Event == KEY_Event_LongPress)  //长按
 	{
 		// 预留长按功能
 		KeyCfg[0].KEY_Event = KEY_Event_Null;
 	}
 
 	// 处理按键1（GPIOA.9）
-	if (KeyCfg[1].KEY_Event == KEY_Event_SingleClick) 
+	if (KeyCfg[1].KEY_Event == KEY_Event_SingleClick)//单击 
 	{
 		// 在设置模式下增加当前值
 		if (currentTime.isSettingMode)
 		{
-			HandleTimeSetting(1);
+			HandleTimeSetting(cont);
 		}
 		KeyCfg[1].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[1].KEY_Event == KEY_Event_DoubleClick) 
+	else if (KeyCfg[1].KEY_Event == KEY_Event_DoubleClick) //双击
 	{
-		// 在设置模式下切换设置项
-		if (currentTime.isSettingMode)
-		{
-			currentTime.settingIndex = (currentTime.settingIndex + 1) % 3;
-		}
+		cont = cont == 3 ? 1 : cont +1;
 		KeyCfg[1].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[1].KEY_Event == KEY_Event_LongPress) 
+	else if (KeyCfg[1].KEY_Event == KEY_Event_LongPress)  //长按
 	{
 		// 在设置模式下减少当前值
 		if (currentTime.isSettingMode)
@@ -137,40 +141,46 @@ void Key_Nums(void)
 	}
 
 	// 处理按键2（GPIOA.10）
-	if (KeyCfg[2].KEY_Event == KEY_Event_SingleClick) 
+	if (KeyCfg[2].KEY_Event == KEY_Event_SingleClick) //单击
 	{
-		// 复位时间
-		currentTime.hours = 12;
-		currentTime.minutes = 0;
-		currentTime.seconds = 0;
-		currentTime.isSettingMode = 0;
+
 		KeyCfg[2].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[2].KEY_Event == KEY_Event_DoubleClick) 
+	else if (KeyCfg[2].KEY_Event == KEY_Event_DoubleClick)//双击 
 	{
 		// 预留双击功能
 		KeyCfg[2].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[2].KEY_Event == KEY_Event_LongPress) 
+	else if (KeyCfg[2].KEY_Event == KEY_Event_LongPress)  //长按
 	{
 		// 预留长按功能
 		KeyCfg[2].KEY_Event = KEY_Event_Null;
 	}
 
 	// 处理按键3（GPIOA.11）
-	if (KeyCfg[3].KEY_Event == KEY_Event_SingleClick) 
+	if (KeyCfg[3].KEY_Event == KEY_Event_SingleClick) //单击
 	{
 		// 请求温度数据
 //		Serial_SendPacket(0x02, 0x00, 0x00, 0x00);
 		KeyCfg[3].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[3].KEY_Event == KEY_Event_DoubleClick) 
+	else if (KeyCfg[3].KEY_Event == KEY_Event_DoubleClick) //双击
 	{
+
 		// 预留双击功能
 		KeyCfg[3].KEY_Event = KEY_Event_Null;
 	} 
-	else if (KeyCfg[3].KEY_Event == KEY_Event_LongPress) 
+	else if (KeyCfg[3].KEY_Event == KEY_Event_LongPress) //长按
 	{
+
+		while(KeyCfg[3].KEY_Event == KEY_Event_LongPress)
+		{
+			// 复位时间
+			currentTime.hours = 12;
+			currentTime.minutes = 0;
+			currentTime.seconds = 0;
+			currentTime.isSettingMode = 0;
+		}
 		// 预留长按功能
 		KeyCfg[3].KEY_Event = KEY_Event_Null;
 	}
