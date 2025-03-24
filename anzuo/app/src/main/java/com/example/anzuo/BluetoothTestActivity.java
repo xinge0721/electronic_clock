@@ -48,12 +48,11 @@ public class BluetoothTestActivity extends AppCompatActivity {
     private TextView receivedDataText;
     
     // 功能测试按钮
-    private Button timeButton;      // 获取时间按钮
     private Button temperatureButton; // 获取温度按钮
-    private Button customTimeButton;  // 自定义时间按钮
-    private Button resetTimeButton;   // 时间复位按钮
     private Button resetTempButton;   // 温度复位按钮
-    private Button autoTimeButton;    // 自动发送时间按钮
+    private Button timeButton;      // 获取时间按钮
+    private Button resetTimeButton;   // 时间复位按钮
+    private Button customTimeButton;  // 自定义时间按钮
     
     // 时间输入框
     private TextView timeInputLabel;
@@ -152,210 +151,16 @@ public class BluetoothTestActivity extends AppCompatActivity {
                 // 继续执行，虽然快速连接按钮无法添加
             }
             
-            // 查找原有按钮的父布局，以便替换
-            android.view.ViewGroup buttonsLayout = null;
-            boolean buttonLayoutCreated = false;
-            
-            try {
-                // 尝试查找按钮布局区域
-                Button existingButton = findViewById(R.id.normalTestButton1);
-                if (existingButton != null) {
-                    // 获取按钮的父布局
-                    buttonsLayout = (android.view.ViewGroup) existingButton.getParent();
-                    
-                    // 清除原有的所有测试按钮
-                    if (buttonsLayout != null) {
-                        buttonsLayout.removeAllViews();
-                    } else {
-                        Log.e(TAG, "找到按钮但无法获取其父布局");
-                    }
-                } else {
-                    Log.e(TAG, "找不到normalTestButton1按钮");
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "查找原有按钮失败: " + e.getMessage());
-            }
-            
-            // 如果仍然没有找到布局，尝试创建一个新的
-            if (buttonsLayout == null) {
-                Log.w(TAG, "创建新的按钮布局");
-                buttonLayoutCreated = true;
-                buttonsLayout = new android.widget.LinearLayout(this);
-                ((android.widget.LinearLayout) buttonsLayout).setOrientation(android.widget.LinearLayout.VERTICAL);
-                
-                // 找到接收数据的文本框，将新布局添加到其前面
-                android.view.ViewGroup mainLayout = null;
-                if (receivedDataText != null) {
-                    ViewParent parentObj = receivedDataText.getParent();
-                    ScrollView scrollView = null;
-                    
-                    // 向上查找ScrollView
-                    while (parentObj != null) {
-                        if (parentObj instanceof ScrollView) {
-                            scrollView = (ScrollView) parentObj;
-                            break;
-                        }
-                        parentObj = parentObj.getParent();
-                    }
-                    
-                    // 如果找到了ScrollView，获取它的父View
-                    if (scrollView != null) {
-                        ViewParent grandParentObj = scrollView.getParent();
-                        if (grandParentObj instanceof android.view.ViewGroup) {
-                            mainLayout = (android.view.ViewGroup) grandParentObj;
-                        }
-                    }
-                }
-                
-                if (mainLayout != null) {
-                    int index = -1;
-                    for (int i = 0; i < mainLayout.getChildCount(); i++) {
-                        if (mainLayout.getChildAt(i) instanceof android.widget.ScrollView) {
-                            index = i;
-                            break;
-                        }
-                    }
-                    
-                    if (index != -1) {
-                        mainLayout.addView(buttonsLayout, index);
-                    } else {
-                        // 如果找不到ScrollView，添加到顶部
-                        mainLayout.addView(buttonsLayout, 0);
-                    }
-                } else {
-                    Log.e(TAG, "无法找到主布局，无法添加新的按钮布局");
-                    // 如果找不到适合的位置，可能需要更复杂的布局处理
-                    // 这里简化处理，直接返回，避免后续操作导致崩溃
-                    return;
-                }
-            }
-            
-            if (buttonsLayout == null) {
-                Log.e(TAG, "无法创建或找到按钮布局，无法继续初始化UI");
-                return;
-            }
-            
-            // 创建获取时间按钮
-            timeButton = new Button(this);
-            timeButton.setText("获取当前时间并发送");
-            timeButton.setBackgroundColor(android.graphics.Color.parseColor("#4CAF50"));
-            timeButton.setTextColor(android.graphics.Color.WHITE);
-            
-            // 创建获取温度按钮
-            temperatureButton = new Button(this);
-            temperatureButton.setText("获取当前温度并发送");
-            temperatureButton.setBackgroundColor(android.graphics.Color.parseColor("#FF5722"));
-            temperatureButton.setTextColor(android.graphics.Color.WHITE);
-            
-            // 添加时间输入标签
-            timeInputLabel = new TextView(this);
-            timeInputLabel.setText("自定义时间(时:分:秒):");
-            timeInputLabel.setTextSize(16);
-            timeInputLabel.setPadding(0, 16, 0, 8);
-            
-            // 创建水平布局来放置三个输入框
-            android.widget.LinearLayout timeInputLayout = new android.widget.LinearLayout(this);
-            timeInputLayout.setOrientation(android.widget.LinearLayout.HORIZONTAL);
-            
-            // 创建时分秒输入框
-            hourInput = new android.widget.EditText(this);
-            hourInput.setHint("时(0-23)");
-            hourInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-            hourInput.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(2)});
-            hourInput.setLayoutParams(new android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-            
-            minuteInput = new android.widget.EditText(this);
-            minuteInput.setHint("分(0-59)");
-            minuteInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-            minuteInput.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(2)});
-            minuteInput.setLayoutParams(new android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-            
-            secondInput = new android.widget.EditText(this);
-            secondInput.setHint("秒(0-59)");
-            secondInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-            secondInput.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(2)});
-            secondInput.setLayoutParams(new android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-            
-            // 添加到水平布局
-            timeInputLayout.addView(hourInput);
-            timeInputLayout.addView(minuteInput);
-            timeInputLayout.addView(secondInput);
-            
-            // 创建自定义时间发送按钮
-            customTimeButton = new Button(this);
-            customTimeButton.setText("发送自定义时间");
-            customTimeButton.setBackgroundColor(android.graphics.Color.parseColor("#9C27B0"));
-            customTimeButton.setTextColor(android.graphics.Color.WHITE);
-            
-            // 创建时间复位按钮
-            resetTimeButton = new Button(this);
-            resetTimeButton.setText("复位时间(00:00:00)");
-            resetTimeButton.setBackgroundColor(android.graphics.Color.parseColor("#03A9F4"));
-            resetTimeButton.setTextColor(android.graphics.Color.WHITE);
-            
-            // 创建温度复位按钮
-            resetTempButton = new Button(this);
-            resetTempButton.setText("复位温度(0℃)");
-            resetTempButton.setBackgroundColor(android.graphics.Color.parseColor("#FF9800"));
-            resetTempButton.setTextColor(android.graphics.Color.WHITE);
-            
-            // 创建自动发送时间按钮
-            autoTimeButton = new Button(this);
-            autoTimeButton.setText("开始自动发送时间");
-            autoTimeButton.setBackgroundColor(android.graphics.Color.parseColor("#E91E63"));
-            autoTimeButton.setTextColor(android.graphics.Color.WHITE);
-            
-            // 将所有新控件添加到布局中
-            buttonsLayout.addView(timeButton);
-            buttonsLayout.addView(resetTimeButton);
-            buttonsLayout.addView(autoTimeButton);
-            buttonsLayout.addView(temperatureButton);
-            buttonsLayout.addView(resetTempButton);
-            buttonsLayout.addView(timeInputLabel);
-            buttonsLayout.addView(timeInputLayout);
-            buttonsLayout.addView(customTimeButton);
-            
-            // 为每个按钮单独创建LinearLayout.LayoutParams
-            android.widget.LinearLayout.LayoutParams timeParams = new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-            timeParams.setMargins(0, 8, 0, 8);
-            timeButton.setLayoutParams(timeParams);
-            
-            android.widget.LinearLayout.LayoutParams tempParams = new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-            tempParams.setMargins(0, 8, 0, 8);
-            temperatureButton.setLayoutParams(tempParams);
-            
-            android.widget.LinearLayout.LayoutParams resetTimeParams = new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-            resetTimeParams.setMargins(0, 8, 0, 8);
-            resetTimeButton.setLayoutParams(resetTimeParams);
-            
-            android.widget.LinearLayout.LayoutParams resetTempParams = new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-            resetTempParams.setMargins(0, 8, 0, 8);
-            resetTempButton.setLayoutParams(resetTempParams);
-            
-            android.widget.LinearLayout.LayoutParams customParams = new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-            customParams.setMargins(0, 8, 0, 8);
-            customTimeButton.setLayoutParams(customParams);
-            
-            android.widget.LinearLayout.LayoutParams autoParams = new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-            autoParams.setMargins(0, 8, 0, 8);
-            autoTimeButton.setLayoutParams(autoParams);
-            
-            // 获取清空日志按钮
+            // 直接从布局文件中获取按钮和输入框
+            temperatureButton = findViewById(R.id.temperatureButton);
+            resetTempButton = findViewById(R.id.resetTempButton);
+            timeButton = findViewById(R.id.timeButton);
+            resetTimeButton = findViewById(R.id.resetTimeButton);
+            customTimeButton = findViewById(R.id.customTimeButton);
+            timeInputLabel = findViewById(R.id.timeInputLabel);
+            hourInput = findViewById(R.id.hourInput);
+            minuteInput = findViewById(R.id.minuteInput);
+            secondInput = findViewById(R.id.secondInput);
             clearLogButton = findViewById(R.id.clearLogButton);
             
             // 初始状态下禁用测试按钮
@@ -363,11 +168,10 @@ public class BluetoothTestActivity extends AppCompatActivity {
             
             // 添加测试说明到日志区
             addLogMessage("请先连接蓝牙设备，然后点击功能按钮:\n" +
-                         "- 获取当前时间: 发送时分秒 (主指令 0x01)\n" +
-                         "- 复位时间: 发送00:00:00 (主指令 0x03)\n" +
-                         "- 自动发送时间: 每秒发送当前时间 (主指令 0x01)\n" +
                          "- 获取当前温度: 发送温度数据 (主指令 0x02)\n" +
-                         "- 复位温度: 发送0℃ (主指令 0x02)\n" +
+                         "- 复位温度: 发送0℃数据 (主指令 0x02)\n" +
+                         "- 获取当前时间: 发送当前系统时间 (主指令 0x01)\n" +
+                         "- 复位时间: 发送00:00:00 (主指令 0x03)\n" +
                          "- 自定义时间: 手动输入时分秒后发送 (主指令 0x03)");
         } catch (Exception e) {
             // 捕获所有可能的异常，防止UI初始化崩溃
@@ -387,8 +191,7 @@ public class BluetoothTestActivity extends AppCompatActivity {
             if (connectButton == null || quickConnectButton == null || 
                 timeButton == null || temperatureButton == null || 
                 customTimeButton == null || resetTimeButton == null || 
-                resetTempButton == null || autoTimeButton == null || 
-                clearLogButton == null) {
+                resetTempButton == null || clearLogButton == null) {
                 Log.e(TAG, "部分按钮未初始化，无法设置监听器");
                 return;
             }
@@ -545,16 +348,6 @@ public class BluetoothTestActivity extends AppCompatActivity {
                 }
             });
             
-            // 自动发送时间按钮
-            autoTimeButton.setOnClickListener(v -> {
-                try {
-                    toggleAutoSendTime();
-                } catch (Exception e) {
-                    Log.e(TAG, "自动发送时间切换异常: " + e.getMessage());
-                    Toast.makeText(this, "自动发送时间设置失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            
             // 清空日志按钮
             if (clearLogButton != null) {
                 clearLogButton.setOnClickListener(v -> {
@@ -675,10 +468,8 @@ public class BluetoothTestActivity extends AppCompatActivity {
                             setTestButtonsEnabled(true);
                             
                             // 强制刷新UI
-                            if (timeButton != null) timeButton.invalidate();
                             if (temperatureButton != null) temperatureButton.invalidate();
                             if (customTimeButton != null) customTimeButton.invalidate();
-                            if (autoTimeButton != null) autoTimeButton.invalidate();
                             
                             addLogMessage("已连接到设备: " + deviceName);
                             
@@ -716,7 +507,17 @@ public class BluetoothTestActivity extends AppCompatActivity {
                             
                             // 如果正在自动发送时间，停止它
                             if (isAutoSendingTime) {
-                                stopAutoSendTime();
+                                isAutoSendingTime = false;
+                                
+                                if (autoSendTimer != null) {
+                                    autoSendTimer.cancel();
+                                    autoSendTimer = null;
+                                }
+                                
+                                if (autoSendTask != null) {
+                                    autoSendTask.cancel();
+                                    autoSendTask = null;
+                                }
                             }
                         } catch (Exception e) {
                             Log.e(TAG, "处理断开连接回调异常: " + e.getMessage());
@@ -1040,12 +841,6 @@ public class BluetoothTestActivity extends AppCompatActivity {
             if (customTimeButton != null) customTimeButton.setEnabled(enabled);
             if (resetTimeButton != null) resetTimeButton.setEnabled(enabled);
             if (resetTempButton != null) resetTempButton.setEnabled(enabled);
-            if (autoTimeButton != null) autoTimeButton.setEnabled(enabled);
-            
-            // 如果按钮被禁用，同时停止自动发送时间（如果正在进行）
-            if (!enabled && isAutoSendingTime) {
-                stopAutoSendTime();
-            }
             
             // 更新按钮文本颜色
             int textColor = enabled ? android.graphics.Color.WHITE : android.graphics.Color.LTGRAY;
@@ -1055,19 +850,9 @@ public class BluetoothTestActivity extends AppCompatActivity {
             if (customTimeButton != null) customTimeButton.setTextColor(textColor);
             if (resetTimeButton != null) resetTimeButton.setTextColor(textColor);
             if (resetTempButton != null) resetTempButton.setTextColor(textColor);
-            if (autoTimeButton != null) autoTimeButton.setTextColor(textColor);
-            
-            // 如果正在进行自动发送时间，更新按钮文本
-            if (autoTimeButton != null) {
-                if (isAutoSendingTime) {
-                    autoTimeButton.setText("停止自动发送时间");
-                } else {
-                    autoTimeButton.setText("开始自动发送时间");
-                }
-            }
             
             // 更新输入框状态
-            boolean inputEnabled = enabled && !isAutoSendingTime;
+            boolean inputEnabled = enabled;
             if (hourInput != null) hourInput.setEnabled(inputEnabled);
             if (minuteInput != null) minuteInput.setEnabled(inputEnabled);
             if (secondInput != null) secondInput.setEnabled(inputEnabled);
@@ -1140,7 +925,17 @@ public class BluetoothTestActivity extends AppCompatActivity {
     protected void onDestroy() {
         // 确保停止自动发送
         if (isAutoSendingTime) {
-            stopAutoSendTime();
+            isAutoSendingTime = false;
+            
+            if (autoSendTimer != null) {
+                autoSendTimer.cancel();
+                autoSendTimer = null;
+            }
+            
+            if (autoSendTask != null) {
+                autoSendTask.cancel();
+                autoSendTask = null;
+            }
         }
         
         try {
@@ -1182,11 +977,6 @@ public class BluetoothTestActivity extends AppCompatActivity {
         // 温度复位按钮
         resetTempButton.setOnClickListener(v -> {
             resetTemperature();
-        });
-        
-        // 自动发送时间按钮
-        autoTimeButton.setOnClickListener(v -> {
-            toggleAutoSendTime();
         });
     }
     
@@ -1326,88 +1116,6 @@ public class BluetoothTestActivity extends AppCompatActivity {
     }
     
     /**
-     * 切换自动发送时间状态
-     */
-    private void toggleAutoSendTime() {
-        if (isAutoSendingTime) {
-            // 如果正在自动发送，则停止
-            stopAutoSendTime();
-        } else {
-            // 如果未自动发送，则开始
-            startAutoSendTime();
-        }
-    }
-    
-    /**
-     * 开始自动发送时间
-     */
-    private void startAutoSendTime() {
-        // 如果未连接蓝牙，提示并返回
-        if (bluetoothManager == null || !bluetoothManager.isConnected()) {
-            Toast.makeText(this, "请先连接蓝牙设备", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        
-        // 更新按钮文字和状态
-        autoTimeButton.setText("停止自动发送时间");
-        autoTimeButton.setBackgroundColor(android.graphics.Color.parseColor("#F44336"));
-        isAutoSendingTime = true;
-        
-        // 添加日志
-        addLogMessage("开始自动发送时间（每秒一次）");
-        
-        // 创建定时任务
-        autoSendTimer = new java.util.Timer();
-        autoSendTask = new java.util.TimerTask() {
-            @Override
-            public void run() {
-                // 在UI线程上执行发送时间操作
-                uiHandler.post(() -> {
-                    // 只有在连接状态下才发送
-                    if (bluetoothManager != null && bluetoothManager.isConnected()) {
-                        sendCurrentTime();
-                    } else {
-                        // 如果连接断开，停止自动发送
-                        stopAutoSendTime();
-                        uiHandler.post(() -> {
-                            Toast.makeText(BluetoothTestActivity.this, 
-                                          "蓝牙连接已断开，停止自动发送时间", 
-                                          Toast.LENGTH_SHORT).show();
-                        });
-                    }
-                });
-            }
-        };
-        
-        // 立即执行一次，然后每秒执行一次
-        autoSendTimer.schedule(autoSendTask, 0, 1000);
-    }
-    
-    /**
-     * 停止自动发送时间
-     */
-    private void stopAutoSendTime() {
-        // 如果定时器和任务存在，取消它们
-        if (autoSendTimer != null) {
-            autoSendTimer.cancel();
-            autoSendTimer = null;
-        }
-        
-        if (autoSendTask != null) {
-            autoSendTask.cancel();
-            autoSendTask = null;
-        }
-        
-        // 更新按钮文字和状态
-        autoTimeButton.setText("开始自动发送时间");
-        autoTimeButton.setBackgroundColor(android.graphics.Color.parseColor("#E91E63"));
-        isAutoSendingTime = false;
-        
-        // 添加日志
-        addLogMessage("停止自动发送时间");
-    }
-    
-    /**
      * 处理蓝牙断开连接的情况
      */
     @Override
@@ -1416,7 +1124,17 @@ public class BluetoothTestActivity extends AppCompatActivity {
         
         // 如果活动暂停且正在自动发送，则停止自动发送
         if (isAutoSendingTime) {
-            stopAutoSendTime();
+            isAutoSendingTime = false;
+            
+            if (autoSendTimer != null) {
+                autoSendTimer.cancel();
+                autoSendTimer = null;
+            }
+            
+            if (autoSendTask != null) {
+                autoSendTask.cancel();
+                autoSendTask = null;
+            }
         }
     }
 } 
