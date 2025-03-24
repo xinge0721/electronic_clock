@@ -10,46 +10,58 @@
 TimeStruct currentTime = {12, 0, 0, 0, 2};  // 默认时间12:00:00，默认从秒开始修改
 float temperature = 0.0f;  // 温度值
 
+// 修改初始化函数，移除重复代码，并添加负号位置
 void cuerrenttime_Init(void)
 {
-	OLED_ShowChar(1, 8, ':');
-	OLED_ShowChar(1, 11, ':');
-	OLED_ShowString(3, 6, "EDIT:  ");
-	OLED_ShowChar(2, 8, '.');
-	OLED_ShowChar(2, 10, 'C');
-	OLED_ShowChar(2, 8, '.');
-	OLED_ShowChar(2, 10, 'C');
+    // 时间显示固定字符
+    OLED_ShowChar(1, 8, ':');
+    OLED_ShowChar(1, 11, ':');
+    
+    // 编辑模式显示
+    OLED_ShowString(3, 6, "EDIT:  ");
+    
+    // 温度显示固定字符
+    OLED_ShowChar(2, 8, '.');  // 小数点
+    OLED_ShowChar(2, 10, 'C'); // 温度单位
+    
+    // 初始化时默认显示的编辑项
+    switch(currentTime.settingIndex)
+    {
+        case 0: OLED_ShowString(3, 12, "HOUR"); break;
+        case 1: OLED_ShowString(3, 12, "MIN "); break;
+        case 2: OLED_ShowString(3, 12, "SEC "); break;
+    }
 }
 
-
-/**
- * @brief 更新时间显示函数
- * 功能：
- * 1. 在OLED上显示当前时间(时:分:秒)
- * 2. 显示当前正在编辑的时间项(时/分/秒)
- * 3. 显示当前温度(保留一位小数)
- * 注意：每次修改时间后应调用此函数更新显示
- */
+// 修改温度显示部分，处理负数情况
 void UpdateTimeDisplay(void)
 {
-	// 显示时间，格式：HH:MM:SS
-	OLED_ShowNum(1, 6, currentTime.hours, 2);
-	OLED_ShowNum(1, 9, currentTime.minutes, 2);
-	OLED_ShowNum(1, 12, currentTime.seconds, 2);
-	
-	// 显示温度
-	if (temperature != 0)
-	{
-		// 显示温度，保留一位小数
-		uint16_t temp_int = (uint16_t)(temperature * 10);
-		OLED_ShowNum(2, 6, temp_int / 10, 2);
-		OLED_ShowNum(2, 9, temp_int % 10, 1);
-	}
-	else 
-	{
-		OLED_ShowNum(2, 6, 23 , 2);
-		OLED_ShowNum(2, 9, 0, 1);
-	}
+    // 显示时间数字部分（冒号已在初始化时显示）
+    OLED_ShowNum(1, 6, currentTime.hours, 2);
+    OLED_ShowNum(1, 9, currentTime.minutes, 2);
+    OLED_ShowNum(1, 12, currentTime.seconds, 2);
+    
+    // 显示温度（小数点和单位已在初始化时显示）
+    if (temperature != 0)
+    {
+        uint16_t temp_abs = (uint16_t)(temperature < 0 ? -temperature * 10 : temperature * 10);
+        
+        // 处理负数符号
+        if (temperature < 0)
+            OLED_ShowChar(2, 5, '-');
+        else
+            OLED_ShowChar(2, 5, ' '); // 清除可能存在的负号
+        
+        // 显示温度整数部分和小数部分
+        OLED_ShowNum(2, 6, temp_abs / 10, 2);
+        OLED_ShowNum(2, 9, temp_abs % 10, 1);
+    }
+    else 
+    {
+        OLED_ShowChar(2, 5, ' '); // 确保无负号
+        OLED_ShowNum(2, 6, 0, 2);
+        OLED_ShowNum(2, 9, 0, 1);
+    }
 }
 
 /**
@@ -169,15 +181,17 @@ void Key_Nums(void)
 	if (KeyCfg[3].KEY_Event == KEY_Event_SingleClick) //单击
 	{
 		// 切换修改项：秒->分->时->秒
-		cont = cont == 0 ? 2 : cont - 1;  // 从2->1->0循环
-		currentTime.settingIndex = cont;
-			// 根据settingIndex显示当前正在设置的项
-		switch(currentTime.settingIndex)
-		{
-			case 0: OLED_ShowString(3, 12, "HOUR"); break; // 当前编辑时
-			case 1: OLED_ShowString(3, 12, "MIN "); break; // 当前编辑分
-			case 2: OLED_ShowString(3, 12, "SEC "); break; // 当前编辑秒
-		}
+		cont = cont == 0 ? 2 : cont - 1;
+    currentTime.settingIndex = cont;
+    
+    // 只更新编辑项显示，其他固定显示在初始化时已设置
+    switch(currentTime.settingIndex)
+    {
+        case 0: OLED_ShowString(3, 12, "HOUR"); break;
+        case 1: OLED_ShowString(3, 12, "MIN "); break;
+        case 2: OLED_ShowString(3, 12, "SEC "); break;
+    }
+    
 		
 		KeyCfg[3].KEY_Event = KEY_Event_Null;
 	} 

@@ -14,10 +14,10 @@ void Hardware_Init(void)
 	TIM2_Int_Init(200, 7200);  // 72MHz / 7200 = 10kHz, 200次计数 = 20ms中断
 	TIM3_Int_Init(2000, 36000);  // 72MHz / 36000 = 2kHz, 2000次计数 = 1s中断，用于时钟计时
 	Serial_Init();  
-//	cuerrenttime_Init();
-//	OLED_ShowString(1, 1, "Time:");
-//	OLED_ShowString(2, 1, "Temp:");
-//	OLED_ShowString(3, 1, "Mode:");
+	cuerrenttime_Init();
+	OLED_ShowString(1, 1, "Time:");
+	OLED_ShowString(2, 1, "Temp:");
+	OLED_ShowString(3, 1, "Mode:");
 }
 
 /**
@@ -44,10 +44,10 @@ int main(void)
 	currentTime.settingIndex = 2;
 	while (1)
 	{
-//		UpdateTimeDisplay();
-		OLED_ShowRxBuffer();
+		UpdateTimeDisplay();
+//		OLED_ShowRxBuffer();
 		USART_data();  // 处理串口数据
-//		Key_Nums();
+		Key_Nums();
 	}
 }
 

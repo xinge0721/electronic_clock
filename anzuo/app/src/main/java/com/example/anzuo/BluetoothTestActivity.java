@@ -1067,7 +1067,7 @@ public class BluetoothTestActivity extends AppCompatActivity {
             }
             
             // 构建数据
-            byte command = 0x03;  // 自定义时间命令
+            byte command = 0x01;  // 自定义时间命令
             byte[] data = {(byte)hour, (byte)minute, (byte)second};
             
             // 发送数据
@@ -1088,7 +1088,7 @@ public class BluetoothTestActivity extends AppCompatActivity {
      */
     private void resetTime() {
         // 构建数据
-        byte command = 0x03;  // 自定义时间命令
+        byte command = 0x01;  // 自定义时间命令
         byte[] data = {0x00, 0x00, 0x00};  // 时分秒全为0
         
         // 发送数据
