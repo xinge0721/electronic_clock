@@ -7,8 +7,8 @@ uint8_t Serial_RxData;		//定义串口接收的数据变量
 uint8_t Serial_RxFlag;		//定义串口接收的标志位变量
 
 // 接收缓冲区
-static uint8_t rxBuffer[PACKET_SIZE];
-static uint8_t isPacketComplete = 0;
+uint8_t rxBuffer[PACKET_SIZE];
+uint8_t isPacketComplete = 0;
 
 /**
   * 函    数：计算校验和
@@ -272,7 +272,7 @@ void USART2_IRQHandler(void)
 }
 #include "cuerrenttime.h"
 
-void USART_data()
+void USART_data(void)
 {
 	//只有数组接受到数据，才能正式修改他
 	if(isPacketComplete)

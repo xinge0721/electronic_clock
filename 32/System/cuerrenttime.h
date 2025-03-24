@@ -4,24 +4,25 @@
 #include "stm32f10x.h"
 #include "Key.h"
 #include "OLED.h"
-// Ê±¼ä½á¹¹Ìå
+// æ—¶é—´ç»“æ„ä½“
 typedef struct {
     uint8_t hours;
     uint8_t minutes;
     uint8_t seconds;
-    uint8_t isSettingMode;  // ÉèÖÃÄ£Ê½±êÖ¾
-    uint8_t settingIndex;   // 0:Ğ¡Ê± 1:·ÖÖÓ 2:Ãë
+    uint8_t reserved;       // ä¿ç•™å­—æ®µï¼Œæ›¿ä»£isSettingMode
+    uint8_t settingIndex;   // 0:å°æ—¶ 1:åˆ†é’Ÿ 2:ç§’
 } TimeStruct;
 
-extern TimeStruct currentTime;  // Ä¬ÈÏÊ±¼ä12:00:00
-extern float temperature;  // ÎÂ¶ÈÖµ
+extern TimeStruct currentTime;  // é»˜è®¤æ—¶é—´12:00:00
+extern float temperature;  // æ¸©åº¦å€¼
 
 
-// ¸üĞÂÊ±¼äÏÔÊ¾
+// æ˜¾ç¤ºæ—¶é—´æ˜¾ç¤º
 void UpdateTimeDisplay(void);
-// ´¦ÀíÊ±¼äÉèÖÃ
+// å¤„ç†æ—¶é—´è®¾ç½®
 void HandleTimeSetting(uint8_t increment);
-// °´¼ü¹¦ÄÜÖ´ĞĞº¯Êı£¨·ÇÑ­»·°æ£©
+// å¤„ç†æŒ‰é”®æ‰«æå‡½æ•°ï¼ˆå¾ªç¯ï¼‰
 void Key_Nums(void) ;
+void cuerrenttime_Init(void);
 
 #endif

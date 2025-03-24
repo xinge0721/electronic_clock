@@ -33,3 +33,5 @@
 .\objects\cuerrenttime.o: .\System\sys.h
 .\objects\cuerrenttime.o: .\System\delay.h
 .\objects\cuerrenttime.o: .\Hardware\OLED\OLED.h
+.\objects\cuerrenttime.o: .\Hardware\Serial\Serial.h
+.\objects\cuerrenttime.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

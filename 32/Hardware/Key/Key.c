@@ -147,15 +147,16 @@ void KEY_ReadStateMachine(u8 data)
 		case KEY_Status_ConfirmPressLong:
 			if(KeyCfg[data].KEY_Action == KEY_Action_Press) 
 			{   // 一直等待其放开
-				KeyCfg[data].KEY_Status = KEY_Status_ConfirmPressLong;
-				KeyCfg[data].KEY_Event = KEY_Event_Null;
-				KeyCfg[data].KEY_Count = 0;
-			}
-			else
-			{
 				KeyCfg[data].KEY_Status = KEY_Status_Idle;
 				KeyCfg[data].KEY_Event = KEY_Event_LongPress;
 				KeyCfg[data].KEY_Count = 0;
+			}
+			else
+			{				
+				KeyCfg[data].KEY_Status = KEY_Status_ConfirmPressLong;
+				KeyCfg[data].KEY_Event = KEY_Event_Null;
+				KeyCfg[data].KEY_Count = 0;
+
 			}
 			break;	
 			

@@ -25,6 +25,7 @@ void Serial_SendArray(uint8_t *array, uint16_t length);
 void Serial_SendPacket(uint8_t command, uint8_t data1, uint8_t data2, uint8_t data3);
 uint8_t* Serial_GetPacket(void);
 uint8_t Serial_IsPacketValid(void);
+void USART_data(void);
 
 void Serial_SendString(char *String);
 void Serial_SendNumber(uint32_t Number, uint8_t Length);
@@ -33,5 +34,6 @@ void Serial_Send8BitPacket(uint8_t Data);
 
 uint8_t Serial_GetRxFlag(void);
 uint8_t Serial_GetRxData(void);
+extern uint8_t rxBuffer[];
 
 #endif
